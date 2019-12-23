@@ -1,8 +1,5 @@
-# paddleslim.quant API文档
 
-## 量化训练API
-
-### 量化配置
+## 量化配置
 ```
 quant_config_default = {
     'weight_quantize_type': 'abs_max',
@@ -25,7 +22,7 @@ quant_config_default = {
     'quant_weight_only': False
 }
 ```
-设置量化训练需要的配置。
+: 设置量化训练需要的配置。
 
 **参数：**
 
@@ -41,19 +38,20 @@ quant_config_default = {
 - **quant_weight_only(bool)** - 是否只量化参数，如果设为``True``，则激活不进行量化，默认``False``。目前暂不支持设置为``True``。 设置为``True``时，只量化参数，这种方式不能减少显存占用和加速，只能用来减少带宽。
 
 
-### paddleslim.quant.quant_aware(program, place, config, scope=None, for_test=False)
-在``program``中加入量化和反量化``op``, 用于量化训练。
+## paddleslim.quant.quant_aware(program, place, config, scope=None, for_test=False)
+
+: 在``program``中加入量化和反量化``op``, 用于量化训练。
 
 
 **参数：**
 
-* **program (fluid.Program)** -  传入训练或测试``program``。
+* **program (fluid.Program)** -  传入训练或测试[*program*](https://www.paddlepaddle.org.cn/documentation/docs/zh/api_cn/fluid_cn/Program_cn.html#program)。
 * **place(fluid.CPUPlace or fluid.CUDAPlace)** -  该参数表示``Executor``执行所在的设备。
 * **config(dict)** -  量化配置表。
 * **scope(fluid.Scope, optional)** -  传入用于存储``Variable``的``scope``，需要传入``program``所使用的``scope``，一般情况下，是``fluid.global_scope()``。设置为``None``时将使用``fluid.global_scope()``，默认值为``None``。
 * **for_test(bool)** -  如果``program``参数是一个测试``program``，``for_test``应设为``True``，否则设为``False``。
 
-**返回**
+**返回:**
 
 含有量化和反量化``operator``的``program``
 
@@ -62,7 +60,7 @@ quant_config_default = {
 * 当``for_test=False``，返回类型为``fluid.CompiledProgram``， **注意，此返回值不能用于保存参数**。
 * 当``for_test=True``，返回类型为``fluid.Program``。
 
-**注意事项**
+!!! note "Note"
 
 * 此接口会改变``program``结构，并且可能增加一些``persistable``的变量，所以加载模型参数时请注意和相应的``program``对应。
 * 此接口底层经历了``fluid.Program``-> ``fluid.framework.IrGraph``->``fluid.Program``的转变，在``fluid.framework.IrGraph``中没有``Parameter``的概念，``Variable``只有``persistable``和``not persistable``的区别，所以在保存和加载参数时，请使用``fluid.io.save_persistables``和``fluid.io.load_persistables``接口。
@@ -71,10 +69,10 @@ quant_config_default = {
 
 
 
-### paddleslim.quant.convert(program, place, config, scope=None, save_int8=False)
+## paddleslim.quant.convert(program, place, config, scope=None, save_int8=False)
 
 
-把训练好的量化``program``，转换为可用于保存``inference model``的``program``。
+: 把训练好的量化[*program*](https://www.paddlepaddle.org.cn/documentation/docs/zh/api_cn/fluid_cn/Program_cn.html#program)，转换为可用于保存``inference model``的``program``。
 
 **参数：**
 - **program (fluid.Program)** -  传入测试``program``。
@@ -88,7 +86,7 @@ quant_config_default = {
 - **program (fluid.Program)** - freezed program，可用于保存inference model，参数为``float32``类型，但其数值范围可用int8表示。
 - **int8_program (fluid.Program)** - freezed program，可用于保存inference model，参数为``int8``类型。当``save_int8``为``False``时，不返回该值。
 
-**注意事项**
+!!! note "Note"
 
 因为该接口会对``op``和``Variable``做相应的删除和修改，所以此接口只能在训练完成之后调用。如果想转化训练的中间模型，可加载相应的参数之后再使用此接口。
 
@@ -136,8 +134,7 @@ inference_prog = quant.convert(quant_eval_program, place, config)
 
 更详细的用法请参考 <a href='../../demo/quant/quant_aware/README.md'>量化训练demo</a>。
 
-## 离线量化API
-```
+## quant_post
 paddleslim.quant.quant_post(executor,
            model_dir,
            quantize_model_path,
@@ -150,8 +147,7 @@ paddleslim.quant.quant_post(executor,
            algo='KL',
            quantizable_op_type=["conv2d", "depthwise_conv2d", "mul"])
 
-```
-对保存在``${model_dir}``下的模型进行量化，使用``sample_generator``的数据进行参数校正。
+: 对保存在``${model_dir}``下的模型进行量化，使用``sample_generator``的数据进行参数校正。
 
 **参数:**
 - **executor (fluid.Executor)** - 执行模型的executor，可以在cpu或者gpu上执行。
@@ -170,9 +166,9 @@ paddleslim.quant.quant_post(executor,
 
 无。
 
-**注意事项**
+!!! note "Note"
 
-因为该接口会收集校正数据的所有的激活值，所以使用的校正图片不能太多。``'KL'``散度的计算也比较耗时。
+    因为该接口会收集校正数据的所有的激活值，所以使用的校正图片不能太多。``'KL'``散度的计算也比较耗时。
 
 **代码示例**
 
@@ -199,11 +195,10 @@ quant_post(
 ```
 更详细的用法请参考 <a href='../../demo/quant/quant_post/README.md'>离线量化demo</a>。
 
-## Embedding量化API
-```
+## quant_embedding
 paddleslim.quant.quant_embedding(program, place, config, scope=None)
-```
-对``Embedding``参数进行量化。
+
+:对``Embedding``参数进行量化。
 
 **参数:**
 - **program(fluid.Program)** - 需要量化的program
