@@ -169,23 +169,26 @@
 <dl class="function">
 <dt id="paddleslim.quant.quant_embedding.quant_embedding">
 <code class="descclassname">paddleslim.quant.quant_embedding.</code><code class="descname">quant_embedding</code><span class="sig-paren">(</span><em>program</em>, <em>place</em>, <em>config</em>, <em>scope=None</em><span class="sig-paren">)</span><a class="headerlink" href="#paddleslim.quant.quant_embedding.quant_embedding" title="Permalink to this definition">¶</a></dt>
-<dd><p>quant lookup_table op parameters
-:param program: infer program
-:type program: fluid.Program
-:param scope: the scope to store var, when is None will use fluid.global_scope()
-:type scope: fluid.Scope
-:param place: place
-:type place: fluid.CPUPlace or fluid.CUDAPlace
-:param config: config to quant. The keys are &#8216;params_name&#8217;, &#8216;quantize_type&#8217;,                 &#8216;quantize_bits&#8217;, &#8216;dtype&#8217;, &#8216;threshold&#8217;.                 &#8216;params_name&#8217;: parameter name to quant, must be set.</p>
-<blockquote>
-<div>&#8216;quantize_type&#8217;: quantize type, supported types are [&#8216;abs_max&#8217;]. default is &#8220;abs_max&#8221;.
-&#8216;quantize_bits&#8217;: quantize bits, supported bits are [8].  default is 8.
-&#8216;dtype&#8217;: quantize dtype, supported dtype are [&#8216;int8&#8217;]. default is &#8216;int8&#8217;.
-&#8216;threshold&#8217;: threshold to clip tensor before quant. When threshold is not set,                         tensor will not be clipped.</div></blockquote>
+<dd><p>quant lookup_table op parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>program</strong> (<em>fluid.Program</em>) &#8211; infer program</li>
+<li><strong>scope</strong> (<em>fluid.Scope</em>) &#8211; the scope to store var, when is None will use fluid.global_scope()</li>
+<li><strong>place</strong> (<em>fluid.CPUPlace</em><em> or </em><em>fluid.CUDAPlace</em>) &#8211; place</li>
+<li><strong>config</strong> (<em>dict</em>) &#8211; config to quant. The keys are &#8216;params_name&#8217;, &#8216;quantize_type&#8217;,                 &#8216;quantize_bits&#8217;, &#8216;dtype&#8217;, &#8216;threshold&#8217;.                 &#8216;params_name&#8217;: parameter name to quant, must be set.
+&#8216;quantize_type&#8217;: quantize type, supported types are [&#8216;abs_max&#8217;]. default is &#8220;abs_max&#8221;.
+&#8216;quantize_bits&#8217;: quantize bits, supported bits are [8].  default is 8.
+&#8216;dtype&#8217;: quantize dtype, supported dtype are [&#8216;int8&#8217;]. default is &#8216;int8&#8217;.
+&#8216;threshold&#8217;: threshold to clip tensor before quant. When threshold is not set,                         tensor will not be clipped.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
 </tbody>
 </table>
 </dd></dl>

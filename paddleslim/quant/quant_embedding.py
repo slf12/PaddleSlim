@@ -233,8 +233,8 @@ def _quant_embedding_abs_max(graph, scope, place, config):
 
 
 def quant_embedding(program, place, config, scope=None):
-    """
-    quant lookup_table op parameters
+    """quant lookup_table op parameters
+
     Args:
         program(fluid.Program): infer program
         scope(fluid.Scope): the scope to store var, when is None will use fluid.global_scope()
@@ -247,6 +247,9 @@ def quant_embedding(program, place, config, scope=None):
                 'dtype': quantize dtype, supported dtype are ['int8']. default is 'int8'.
                 'threshold': threshold to clip tensor before quant. When threshold is not set, \
                         tensor will not be clipped.
+
+    Returns:
+        None
     """
     assert isinstance(config, dict), "config must be dict"
     config = _merge_config(copy.deepcopy(default_config), config)
