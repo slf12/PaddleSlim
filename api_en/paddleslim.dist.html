@@ -94,7 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="paddleslim.core.html">paddleslim.core package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">paddleslim.dist package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-paddleslim.dist.single_distiller">paddleslim.dist.single_distiller module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paddleslim-dist-single-distiller-module">paddleslim.dist.single_distiller module</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="paddleslim.models.html">paddleslim.models package</a></li>
@@ -158,136 +158,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-paddleslim.dist">
-<span id="paddleslim-dist-package"></span><h1>paddleslim.dist package<a class="headerlink" href="#module-paddleslim.dist" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="paddleslim-dist-package">
+<h1>paddleslim.dist package<a class="headerlink" href="#paddleslim-dist-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-paddleslim.dist.single_distiller">
-<span id="paddleslim-dist-single-distiller-module"></span><h2>paddleslim.dist.single_distiller module<a class="headerlink" href="#module-paddleslim.dist.single_distiller" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="paddleslim.dist.single_distiller.fsp_loss">
-<code class="descclassname">paddleslim.dist.single_distiller.</code><code class="descname">fsp_loss</code><span class="sig-paren">(</span><em>teacher_var1_name</em>, <em>teacher_var2_name</em>, <em>student_var1_name</em>, <em>student_var2_name</em>, <em>program=blocks {   idx: 0   parent_idx: -1 } version {   version: 0 }</em><span class="sig-paren">)</span><a class="headerlink" href="#paddleslim.dist.single_distiller.fsp_loss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combine variables from student model and teacher model by fsp-loss.
-:param teacher_var1_name: The name of teacher_var1.
-:type teacher_var1_name: str
-:param teacher_var2_name: The name of teacher_var2. Except for the</p>
-<blockquote>
-<div>second dimension, all other dimensions should
-be consistent with teacher_var1.</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>student_var1_name</strong> (<em>str</em>) &#8211; The name of student_var1.</li>
-<li><strong>student_var2_name</strong> (<em>str</em>) &#8211; The name of student_var2. Except for the
-second dimension, all other dimensions should
-be consistent with student_var1.</li>
-<li><strong>program</strong> (<em>Program</em>) &#8211; The input distiller program.
-default: fluid.default_main_program()</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<p>Return(Variable): fsp distiller loss.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="paddleslim.dist.single_distiller.l2_loss">
-<code class="descclassname">paddleslim.dist.single_distiller.</code><code class="descname">l2_loss</code><span class="sig-paren">(</span><em>teacher_var_name</em>, <em>student_var_name</em>, <em>program=blocks {   idx: 0   parent_idx: -1 } version {   version: 0 }</em><span class="sig-paren">)</span><a class="headerlink" href="#paddleslim.dist.single_distiller.l2_loss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combine variables from student model and teacher model by l2-loss.
-:param teacher_var_name: The name of teacher_var.
-:type teacher_var_name: str
-:param student_var_name: The name of student_var.
-:type student_var_name: str
-:param program: The input distiller program.</p>
-<blockquote>
-<div>default: fluid.default_main_program()</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-</tbody>
-</table>
-<p>Return(Variable): l2 distiller loss.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="paddleslim.dist.single_distiller.loss">
-<code class="descclassname">paddleslim.dist.single_distiller.</code><code class="descname">loss</code><span class="sig-paren">(</span><em>loss_func</em>, <em>program=blocks {   idx: 0   parent_idx: -1 } version {   version: 0 }</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#paddleslim.dist.single_distiller.loss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combine variables from student model and teacher model by self defined loss.
-:param program: The input distiller program.</p>
-<blockquote>
-<div>default: fluid.default_main_program()</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>loss_func</strong> (<em>function</em>) &#8211; The user self defined loss function.</td>
-</tr>
-</tbody>
-</table>
-<p>Return(Variable): self defined distiller loss.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="paddleslim.dist.single_distiller.merge">
-<code class="descclassname">paddleslim.dist.single_distiller.</code><code class="descname">merge</code><span class="sig-paren">(</span><em>teacher_program</em>, <em>student_program</em>, <em>data_name_map</em>, <em>place</em>, <em>scope=&lt;paddle.fluid.core_avx._Scope object&gt;</em>, <em>name_prefix='teacher_'</em><span class="sig-paren">)</span><a class="headerlink" href="#paddleslim.dist.single_distiller.merge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Merge teacher program into student program and add a uniform prefix to the
-names of all vars in teacher program
-:param teacher_program: The input teacher model paddle program
-:type teacher_program: Program
-:param student_program: The input student model paddle program
-:type student_program: Program
-:param data_map_map: Describe the mapping between the teacher var name</p>
-<blockquote>
-<div>and the student var name</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>place</strong> (<em>fluid.CPUPlace</em><em>(</em><em>)</em><em>|fluid.CUDAPlace</em><em>(</em><em>N</em><em>)</em>) &#8211; This parameter represents
-paddle run on which device.</li>
-<li><strong>scope</strong> (<em>Scope</em>) &#8211; The input scope</li>
-<li><strong>name_prefix</strong> (<em>str</em>) &#8211; Name prefix added for all vars of the teacher program.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="paddleslim.dist.single_distiller.soft_label_loss">
-<code class="descclassname">paddleslim.dist.single_distiller.</code><code class="descname">soft_label_loss</code><span class="sig-paren">(</span><em>teacher_var_name</em>, <em>student_var_name</em>, <em>program=blocks {   idx: 0   parent_idx: -1 } version {   version: 0 }</em>, <em>teacher_temperature=1.0</em>, <em>student_temperature=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#paddleslim.dist.single_distiller.soft_label_loss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combine variables from student model and teacher model by soft-label-loss.
-:param teacher_var_name: The name of teacher_var.
-:type teacher_var_name: str
-:param student_var_name: The name of student_var.
-:type student_var_name: str
-:param program: The input distiller program.</p>
-<blockquote>
-<div>default: fluid.default_main_program()</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>teacher_temperature</strong> (<em>float</em>) &#8211; Temperature used to divide
-teacher_feature_map before softmax. default: 1.0</li>
-<li><strong>student_temperature</strong> (<em>float</em>) &#8211; Temperature used to divide
-student_feature_map before softmax. default: 1.0</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<p>Return(Variable): l2 distiller loss.</p>
-</dd></dl>
-
+<div class="section" id="paddleslim-dist-single-distiller-module">
+<h2>paddleslim.dist.single_distiller module<a class="headerlink" href="#paddleslim-dist-single-distiller-module" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
