@@ -199,19 +199,16 @@
 <dl class="function">
 <dt id="paddleslim.quant.quanter.convert">
 <code class="descclassname">paddleslim.quant.quanter.</code><code class="descname">convert</code><span class="sig-paren">(</span><em>program</em>, <em>place</em>, <em>config=None</em>, <em>scope=None</em>, <em>save_int8=False</em><span class="sig-paren">)</span><a class="headerlink" href="#paddleslim.quant.quanter.convert" title="Permalink to this definition">¶</a></dt>
-<dd><p>change quantization ops order in program. return program that can used by Paddle-Lite.
-:param program: program that returned by quant_aware
-:type program: fluid.Program
-:param place: CPU or CUDA device
-:type place: fluid.CPUPlace or fluid.CUDAPlace
-:param scope: the scope to store var, it should be program&#8217;s scope. if None, will use fluid.global_scope().</p>
-<blockquote>
-<div>default is None.</div></blockquote>
+<dd><p>change quantization ops order in program. return program that can used by Paddle-Lite.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>program</strong> (<em>fluid.Program</em>) &#8211; program that returned by quant_aware</li>
+<li><strong>place</strong> (<em>fluid.CPUPlace</em><em> or </em><em>fluid.CUDAPlace</em>) &#8211; CPU or CUDA device</li>
+<li><strong>scope</strong> (<em>fluid.Scope</em><em>, </em><em>optional</em>) &#8211; the scope to store var, it should be program&#8217;s scope. if None, will use fluid.global_scope().
+default is None.</li>
 <li><strong>config</strong> (<em>dict</em><em>, </em><em>optional</em>) &#8211; configs for convert. if set None, will use default config. Default is None.                It must be same with config that used in &#8216;quant_aware&#8217;.</li>
 <li><strong>save_int8</strong> &#8211; if return int8 freezed program. Int8 program can only be used to check size of model weights.                 It cannot be used in Fluid or Paddle-Lite.</li>
 </ul>
@@ -238,25 +235,26 @@ when save_int8 is True, return freezed_program and freezed_program_int8</p>
 <dl class="function">
 <dt id="paddleslim.quant.quanter.quant_aware">
 <code class="descclassname">paddleslim.quant.quanter.</code><code class="descname">quant_aware</code><span class="sig-paren">(</span><em>program</em>, <em>place</em>, <em>config=None</em>, <em>scope=None</em>, <em>for_test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#paddleslim.quant.quanter.quant_aware" title="Permalink to this definition">¶</a></dt>
-<dd><p>add trainable quantization ops in program.
-:param program: program to quant
-:type program: fluid.Program
-:param place: CPU or CUDA device
-:type place: fluid.CPUPlace or fluid.CUDAPlace
-:param config: configs for quantization. if None, will use default config. Default is None.
-:type config: dict, optional
-:param scope: the scope to store var, it should be program&#8217;s scope. if None, will use fluid.global_scope().</p>
-<blockquote>
-<div>default is None.</div></blockquote>
+<dd><p>add trainable quantization ops in program.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>for_test</strong> (<em>bool</em>) &#8211; if program is test program, set True when program is for test, False when program is for train. Default is False.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>program</strong> (<em>fluid.Program</em>) &#8211; program to quant</li>
+<li><strong>place</strong> (<em>fluid.CPUPlace</em><em> or </em><em>fluid.CUDAPlace</em>) &#8211; CPU or CUDA device</li>
+<li><strong>config</strong> (<em>dict</em><em>, </em><em>optional</em>) &#8211; configs for quantization. if None, will use default config. Default is None.</li>
+<li><strong>scope</strong> (<em>fluid.Scope</em>) &#8211; the scope to store var, it should be program&#8217;s scope. if None, will use fluid.global_scope().
+default is None.</li>
+<li><strong>for_test</strong> (<em>bool</em>) &#8211; if program is test program, set True when program is for test, False when program is for train. Default is False.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">user can finetune this quantization program to enhance the accuracy.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">user can finetune this quantization program to enhance the accuracy.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">fluid.Program</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">fluid.Program</p>
+</td>
 </tr>
 </tbody>
 </table>
