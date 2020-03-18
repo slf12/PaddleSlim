@@ -36,7 +36,7 @@ SUPPORT_QUANTIZE_BITS = [8]
 SUPPORT_DTYPE = ['int8']
 
 _default_single_config = {
-    "quantize_type": "abs_max",
+    "quantize_type": "log",
     "quantize_bits": 8,
     "dtype": "int8"
 }
@@ -270,6 +270,21 @@ def _quant_embedding_log(graph, scope, place, config, var_name,
     _inverval = 0.125
     _dict_len = 256
     _dict = np.zeros(_dict_len)
+    '''
+    def _search(array, num_array):
+        length = len(array)
+        res_refine = []
+        for i in range(len(num_array)):
+            min_dist = 1000000.0
+            quant_id = 0
+            for j in range(length):
+                dist = np.abs(num_array[i] - array[j]) 
+                if dist  < min_dist:
+                    quant_id = j
+                    min_dist = dist
+            res_refine.append(quant_id)
+        return np.array(res_refine)
+    '''
 
     def _search(array, num_array):
         length = len(array)
@@ -294,13 +309,16 @@ def _quant_embedding_log(graph, scope, place, config, var_name,
         log_and_quant = np.round(np.log2(np.abs(tensor_array)) /
                                  _inverval) * _inverval
         unique, counts = np.unique(log_and_quant, return_counts=True)
-        topk_index = counts.argsort()[::-1][0:int(_dict_len / 2)]
-        topk_num = unique[topk_index]
-        topk_num = np.sort(topk_num)
-        log_num = np.log2(np.abs(tensor_array))
+        topk_num = np.sort(unique)[::-1][0:int(_dict_len / 2)]
+        topk_num = topk_num[::-1]
+        print(topk_num)
+        #topk_index = counts.argsort()[::-1][0:int(_dict_len / 2)]
+        #topk_num = unique[topk_index]
+        #topk_num = np.sort(topk_num)
+
         pool = ThreadPool(8)
-        quanted_array = pool.map(lambda x: np.searchsorted(topk_num, x),
-                                 log_num)
+        print(log_and_quant.shape)
+        quanted_array = pool.map(lambda x: _search(topk_num, x), log_and_quant)
         quanted_array = np.array(quanted_array)
         pool.close()
         pool.join()
