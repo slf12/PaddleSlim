@@ -69,7 +69,7 @@
 quant_aware
 ------------
 
-.. py:function:: paddleslim.quant.quant_aware(program, place, config, scope=None, for_test=False)
+.. py:function:: paddleslim.quant.quant_aware(program, place, config=None, scope=None, for_test=False)
 
 `源代码 <https://github.com/PaddlePaddle/PaddleSlim/blob/release/1.1.0/paddleslim/quant/quanter.py>`_
 
@@ -80,9 +80,9 @@ quant_aware
 
 - **program (fluid.Program)** -  传入训练或测试program 。
 - **place(fluid.CPUPlace | fluid.CUDAPlace)** -  该参数表示 ``Executor`` 执行所在的设备。
-- **config(dict)** -  量化配置表。
+- **config(dict, optional)** -  量化配置表。如果为None则使用 `量化配置 <https://paddleslim.readthedocs.io/zh_CN/latest/api_cn/quantization_api.html#id2>`_ 中列的默认配置。默认值为None。
 - **scope(fluid.Scope, optional)** -  传入用于存储 ``Variable`` 的 ``scope`` ，需要传入 ``program`` 所使用的 ``scope`` ，一般情况下，是 `fluid.global_scope() <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/api_cn/executor_cn/global_scope_cn.html>`_ 。设置为 ``None`` 时将使用 `fluid.global_scope() <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/api_cn/executor_cn/global_scope_cn.html>`_ ，默认值为 ``None`` 。
-- **for_test(bool)** -  如果 ``program`` 参数是一个测试 ``program`` ， ``for_test`` 应设为True，否则设为False 。
+- **for_test(bool, optional)** -  如果 ``program`` 参数是一个测试 ``program`` ， ``for_test`` 应设为True，否则设为False 。
 
 **返回**
 
@@ -105,7 +105,7 @@ quant_aware
 convert
 ---------
 
-.. py:function:: paddleslim.quant.convert(program, place, config, scope=None, save_int8=False)
+.. py:function:: paddleslim.quant.convert(program, place, config=None, scope=None, save_int8=False)
 
 `源代码 <https://github.com/PaddlePaddle/PaddleSlim/blob/release/1.1.0/paddleslim/quant/quanter.py>`_
 
@@ -116,9 +116,9 @@ convert
 
 - **program (fluid.Program)** -  传入测试 program 。
 - **place(fluid.CPUPlace | fluid.CUDAPlace)** - 该参数表示 ``Executor`` 执行所在的设备。
-- **config(dict)** -  量化配置表。
-- **scope(fluid.Scope)** - 传入用于存储 ``Variable`` 的 ``scope`` ，需要传入 ``program`` 所使用的 ``scope`` ，一般情况下，是 `fluid.global_scope() <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/api_cn/executor_cn/global_scope_cn.html>`_ 。设置为 ``None`` 时将使用 `fluid.global_scope() <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/api_cn/executor_cn/global_scope_cn.html>`_ ，默认值为 ``None`` 。
-- **save_int8（bool)** -  是否需要返回参数为 ``int8`` 的 program 。该功能目前只能用于确认模型大小。默认值为 ``False`` 。
+- **config(dict, optional)** -  量化配置表。如果为None则使用 `量化配置 <https://paddleslim.readthedocs.io/zh_CN/latest/api_cn/quantization_api.html#id2>`_ 中列的默认配置。默认值为None。
+- **scope(fluid.Scope, optional)** - 传入用于存储 ``Variable`` 的 ``scope`` ，需要传入 ``program`` 所使用的 ``scope`` ，一般情况下，是 `fluid.global_scope() <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/api_cn/executor_cn/global_scope_cn.html>`_ 。设置为 ``None`` 时将使用 `fluid.global_scope() <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/api_cn/executor_cn/global_scope_cn.html>`_ ，默认值为 ``None`` 。
+- **save_int8（bool, optional)** -  是否需要返回参数为 ``int8`` 的 program 。该功能目前只能用于确认模型大小。默认值为 ``False`` 。
 
 **返回**
 
@@ -187,24 +187,24 @@ quant_post
 - **executor (fluid.Executor)** - 执行模型的executor，可以在cpu或者gpu上执行。
 - **model_dir（str)** - 需要量化的模型所在的文件夹。
 - **quantize_model_path(str)** - 保存量化后的模型的路径
-- **batch_generator(python generator)** - 读取数据样本，每次返回一个batch的数据。和 `sample_generator` 只能设置一个。
-- **sample_generator(python generator)** - 读取数据样本，每次返回一个样本。
+- **batch_generator(python generator, optional)** - 读取数据样本，每次返回一个batch的数据。和 `sample_generator` 只能设置一个。
+- **sample_generator(python generator, optional)** - 读取数据样本，每次返回一个样本。
 - **model_filename(str, optional)** - 模型文件名，如果需要量化的模型的参数存在一个文件中，则需要设置 ``model_filename`` 为模型文件的名称，否则设置为 ``None`` 即可。默认值是 ``None`` 。
 - **params_filename(str, optional)** - 参数文件名，如果需要量化的模型的参数存在一个文件中，则需要设置 ``params_filename`` 为参数文件的名称，否则设置为 ``None`` 即可。默认值是 ``None`` 。
-- **save_model_filename(str)** - 用于保存量化模型的模型文件名，如果想让参数存在一个文件中，则需要设置 ``save_model_filename`` 为模型文件的名称，否则设置为 ``None`` 即可。默认值是 ``__model__`` 。
-- **save_params_filename(str)** - 用于保存模型的参数文件名，如果想让参数存在一个文件中，则需要设置 ``save_params_filename`` 为参数文件的名称，否则设置为 ``None`` 即可。默认值是 ``__params__`` 。
-- **batch_size(int)** - 每个batch的图片数量。默认值为16 。
+- **save_model_filename(str, optional)** - 用于保存量化模型的模型文件名，如果想让参数存在一个文件中，则需要设置 ``save_model_filename`` 为模型文件的名称，否则设置为 ``None`` 即可。默认值是 ``__model__`` 。
+- **save_params_filename(str, optional)** - 用于保存模型的参数文件名，如果想让参数存在一个文件中，则需要设置 ``save_params_filename`` 为参数文件的名称，否则设置为 ``None`` 即可。默认值是 ``__params__`` 。
+- **batch_size(int, optional)** - 每个batch的图片数量。默认值为16 。
 - **batch_nums(int, optional)** - 迭代次数。如果设置为 ``None`` ，则会一直运行到 ``sample_generator`` 迭代结束， 否则，迭代次数为 ``batch_nums``, 也就是说参与对 ``Scale`` 进行校正的样本个数为 ``'batch_nums' * 'batch_size'`` .
 - **scope(fluid.Scope, optional)** - 用来获取和写入 ``Variable`` , 如果设置为 ``None`` ,则使用 `fluid.global_scope() <https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/api_cn/executor_cn/global_scope_cn.html>`_ . 默认值是 ``None`` .
 - **algo(str)** - 量化时使用的算法名称，可为 ``'KL'`` 或者 ``'direct'`` 。该参数仅针对激活值的量化，因为参数值的量化使用的方式为 ``'channel_wise_abs_max'`` . 当 ``algo`` 设置为 ``'direct'`` 时，使用校正数据的激活值的绝对值的最大值当作 ``Scale`` 值，当设置为 ``'KL'`` 时，则使用KL散度的方法来计算 ``Scale`` 值。默认值为 ``'KL'`` 。
-- **quantizable_op_type(list[str])** -  需要量化的 op 类型列表。默认值为 ``["conv2d", "depthwise_conv2d", "mul"]`` 。
-- **is_full_quantize(bool)** - 是否量化所有可支持的op类型。如果设置为False, 则按照 ``'quantizable_op_type'`` 的设置进行量化。如果设置为True, 则按照 `量化配置 <#id2>`_  中 ``QUANT_DEQUANT_PASS_OP_TYPES + QUANT_DEQUANT_PASS_OP_TYPES`` 定义的op进行量化。  
-- **weight_bits(int)** - weight的量化比特位数, 默认值为8。
-- **activation_bits(int)** - 激活值的量化比特位数, 默认值为8。
-- **weight_quantize_type(str)** - weight的量化方式，可选 `abs_max` 或者 `channel_wise_abs_max` ,通常情况下选 `channel_wise_abs_max` 模型量化精度更高。
-- **activation_quantize_type(str)** - 激活值的量化方式, 可选 `range_abs_max` 和 `moving_average_abs_max` 。设置激活量化方式不会影响计算scale的算法，只是影响在保存模型时使用哪种operator。
-- **is_use_cache_file(bool)** - 是否使用硬盘对中间结果进行存储。如果为False, 则将中间结果存储在内存中。默认值为False。
-- **cache_dir(str)** - 如果 ``'is_use_cache_file'`` 为True, 则将中间结果存储在此参数设置的路径下。默认值为 ``./temp_post_training``  。
+- **quantizable_op_type(list[str], optional)** -  需要量化的 op 类型列表。默认值为 ``["conv2d", "depthwise_conv2d", "mul"]`` 。
+- **is_full_quantize(bool, optional)** - 是否量化所有可支持的op类型。如果设置为False, 则按照 ``'quantizable_op_type'`` 的设置进行量化。如果设置为True, 则按照 `量化配置 <#id2>`_  中 ``QUANT_DEQUANT_PASS_OP_TYPES + QUANT_DEQUANT_PASS_OP_TYPES`` 定义的op进行量化。  
+- **weight_bits(int, optional)** - weight的量化比特位数, 默认值为8。
+- **activation_bits(int, optional)** - 激活值的量化比特位数, 默认值为8。
+- **weight_quantize_type(str, optional)** - weight的量化方式，可选 `abs_max` 或者 `channel_wise_abs_max` ,通常情况下选 `channel_wise_abs_max` 模型量化精度更高。
+- **activation_quantize_type(str, optional)** - 激活值的量化方式, 可选 `range_abs_max` 和 `moving_average_abs_max` 。设置激活量化方式不会影响计算scale的算法，只是影响在保存模型时使用哪种operator。
+- **is_use_cache_file(bool, optional)** - 是否使用硬盘对中间结果进行存储。如果为False, 则将中间结果存储在内存中。默认值为False。
+- **cache_dir(str, optional)** - 如果 ``'is_use_cache_file'`` 为True, 则将中间结果存储在此参数设置的路径下。默认值为 ``./temp_post_training``  。
 
 **返回**
 
@@ -320,9 +320,9 @@ quant_post_only_weight
 - **params_filename(str, optional)** - 参数文件名，如果需要量化的模型的参数存在一个文件中，则需要设置 ``params_filename`` 为参数文件的名称，否则设置为 ``None`` 即可。默认值是 ``None`` 。
 - **save_model_filename(str, optional)** - 用于保存量化模型的模型文件名，如果想让参数存在一个文件中，则需要设置 ``save_model_filename`` 为模型文件的名称，否则设置为 ``None`` 即可。默认值是 None 。
 - **save_params_filename(str, optional)** - 用于保存模型的参数文件名，如果想让参数存在一个文件中，则需要设置 ``save_params_filename`` 为参数文件的名称，否则设置为 ``None`` 即可。默认值是 None 。
-- **quantizable_op_type(list[str])** -  需要量化的 op 类型列表。可选范围为 ``["conv2d", "depthwise_conv2d", "mul"]`` 。 默认值是 ``["conv2d", "mul"]`` 。
-- **weight_bits(int)** - weight的量化比特位数, 可选8或者16。 默认值为8。
-- **generate_test_model(bool)** - 如果为True, 则会保存一个fake quantized模型，这个模型可用PaddlePaddle加载测试精度。默认为False.
+- **quantizable_op_type(list[str], optional)** -  需要量化的 op 类型列表。可选范围为 ``["conv2d", "depthwise_conv2d", "mul"]`` 。 默认值是 ``["conv2d", "mul"]`` 。
+- **weight_bits(int, optional)** - weight的量化比特位数, 可选8或者16。 默认值为8。
+- **generate_test_model(bool, optional)** - 如果为True, 则会保存一个fake quantized模型，这个模型可用PaddlePaddle加载测试精度。默认为False.
 
 **返回**
 
